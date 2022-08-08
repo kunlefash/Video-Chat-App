@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import AgoraUIKit, { PropsInterface } from "agora-react-uikit";
 
-function App() {
+const App: React.FunctionComponent = () => {
+  const [videocall, setVideocall] = useState(true);
+  const props: PropsInterface = {
+    rtcProps: {
+      appId: "<Your Agora App ID>",
+      channel: "test",
+      token: null, // pass in channel token if the app is in secure mode
+    },
+    callbacks: {
+      EndCall: () => setVideocall(false),
+    },
+    styleProps: {
+      localBtnContainer: { backgroundColor: "yellow" },
+    },
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={styles.container}>
+      {videocall ? (
+        <AgoraUIKit rtcProps={props.rtcProps} callbacks={props.callbacks} />
+      ) : null}
     </div>
   );
-}
+};
 
-export default App;
+const styles = {
+  container: { width: "100vw", height: "100vh", display: "flex", flex: 1 },
+};
