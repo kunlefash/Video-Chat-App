@@ -16,7 +16,7 @@ const config: ClientConfig = {
   mode: "rtc", codec: "vp8",
 };
 
-const appId: string = ""; //ENTER APP ID HERE
+const appId: string = "b820708ba1954d75a8e4b0cd96f21662"; 
 const token: string | null = null;
 
 const App = () => {
