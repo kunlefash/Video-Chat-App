@@ -28,10 +28,28 @@ const App: React.FunctionComponent = () => {
             <p style={styles.btn} onClick={() => setHost(!isHost)}>Change Role</p>
             <p style={styles.btn} onClick={() => setPinned(!isPinned)}>Change Layout</p>
           </div>
-          <AgoraUIKit
-            rtcProps={props.rtcProps}
-            callbacks={props.callbacks}
-            styleProps={props.styleProps} /></>
+          <div className="container">
+      <div className="main-container">
+        <div className="screen-share-btn-container">
+          <button className="btn__share">Share Screen</button>
+        </div>
+        <div className="buttons-container">
+          <button className="btn__toggle"></button>
+        </div>
+        <div className="full-screen-video"></div>
+        <div className="lower-video-bar">
+          <div className="remote-streams-container">
+            <div className="remote-streams">
+              <button className="bt__remote"></button>
+            </div>
+          </div>
+          <div className="local-stream-container">						
+            <div className="local-video"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+          </>
         ) : (
           <h3 style={styles.btn} onClick={() => setVideocall(true)}>Start Call</h3>
         )}
