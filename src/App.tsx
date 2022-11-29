@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./App.css"
+import "./App.css";
 import {
   ClientConfig,
   IAgoraRTCRemoteUser,
@@ -12,11 +12,12 @@ import {
   createMicrophoneAndCameraTracks,
 } from "agora-rtc-react";
 
-const config: ClientConfig = { 
-  mode: "rtc", codec: "vp8",
+const config: ClientConfig = {
+  mode: "rtc",
+  codec: "vp8",
 };
 
-const appId: string = "b820708ba1954d75a8e4b0cd96f21662"; 
+const appId: string = "b820708ba1954d75a8e4b0cd96f21662";
 const token: string | null = null;
 
 const App = () => {
@@ -33,7 +34,6 @@ const App = () => {
     </div>
   );
 };
-
 
 const useClient = createClient(config);
 const useMicrophoneAndCameraTracks = createMicrophoneAndCameraTracks();
@@ -86,14 +86,12 @@ const VideoCall = (props: {
       await client.join(appId, name, token, null);
       if (tracks) await client.publish([tracks[0], tracks[1]]);
       setStart(true);
-
     };
 
     if (ready && tracks) {
       console.log("init ready");
       init(channelName);
     }
-
   }, [channelName, client, ready, tracks]);
 
   return (
@@ -115,12 +113,16 @@ const Videos = (props: {
   return (
     <div>
       <div id="videos">
-        <AgoraVideoPlayer className='vid' videoTrack={tracks[1]} />
+        <AgoraVideoPlayer className="vid" videoTrack={tracks[1]} />
         {users.length > 0 &&
           users.map((user) => {
             if (user.videoTrack) {
               return (
-                <AgoraVideoPlayer className='vid' videoTrack={user.videoTrack} key={user.uid} />
+                <AgoraVideoPlayer
+                  className="vid"
+                  videoTrack={user.videoTrack}
+                  key={user.uid}
+                />
               );
             } else return null;
           })}
@@ -129,11 +131,15 @@ const Videos = (props: {
   );
 };
 
-export const Controls = (props: {tracks: any, setStart: any, setInCall: any}) => {
+export const Controls = (props: {
+  tracks: any;
+  setStart: any;
+  setInCall: any;
+}) => {
   const client = useClient();
   const { tracks, setStart, setInCall } = props;
   const [trackState, setTrackState] = useState({ video: true, audio: true });
-  
+
   const mute = async (type: "audio" | "video") => {
     if (type === "audio") {
       await tracks[0].setEnabled(!trackState.audio);
@@ -147,7 +153,7 @@ export const Controls = (props: {tracks: any, setStart: any, setInCall: any}) =>
       });
     }
   };
-  
+
   const leaveChannel = async () => {
     await client.leave();
     client.removeAllListeners();
@@ -159,12 +165,10 @@ export const Controls = (props: {tracks: any, setStart: any, setInCall: any}) =>
 
   return (
     <div className="controls">
-      <p className={trackState.audio ? "on" : ""}
-        onClick={() => mute("audio")}>
+      <p className={trackState.audio ? "on" : ""} onClick={() => mute("audio")}>
         {trackState.audio ? "MuteAudio" : "UnmuteAudio"}
       </p>
-      <p className={trackState.video ? "on" : ""}
-        onClick={() => mute("video")}>
+      <p className={trackState.video ? "on" : ""} onClick={() => mute("video")}>
         {trackState.video ? "MuteVideo" : "UnmuteVideo"}
       </p>
       {<p onClick={() => leaveChannel()}>Leave</p>}
@@ -180,15 +184,22 @@ const ChannelForm = (props: {
 
   return (
     <form className="join">
-      {appId === '' && <p style={{color: 'red'}}>Please enter your Agora App ID in App.tsx and refresh the page</p>}
-      <input type="text"
+      {appId === "" && (
+        <p style={{ color: "red" }}>
+          Please enter your Agora App ID in App.tsx and refresh the page
+        </p>
+      )}
+      <input
+        type="text"
         placeholder="Enter Channel Name"
         onChange={(e) => setChannelName(e.target.value)}
       />
-      <button onClick={(e) => {
-        e.preventDefault();
-        setInCall(true);
-      }}>
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          setInCall(true);
+        }}
+      >
         Join
       </button>
     </form>
